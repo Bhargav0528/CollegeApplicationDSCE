@@ -13,7 +13,13 @@ const Tab = createBottomTabNavigator(
     ScreenOne: {
       screen: ScreenOne,
       navigationOptions: {
-        tabBarIcon: ()=>(
+        tabBarIcon: ({ focused,tintColor })=>(
+          focused?
+          <Image
+            source={require('../../Resources/Images/announce.png')}
+            style={{ width: 40, height: 40, tintColor: 'orange' }}
+          />
+          :
           <Image
             source={require('../../Resources/Images/announce.png')}
             style={{ width: 30, height: 30 }}
@@ -24,7 +30,13 @@ const Tab = createBottomTabNavigator(
     ScreenTwo: {
       screen: ScreenTwo,
        navigationOptions: {
-        tabBarIcon: ()=>(
+        tabBarIcon: ({ focused,tintColor })=>(
+          focused?
+          <Image
+            source={require('../../Resources/Images/study_mat.png')}
+            style={{ width: 40, height: 40, tintColor: 'orange' }}
+          />
+          :
           <Image
             source={require('../../Resources/Images/study_mat.png')}
             style={{ width: 30, height: 30 }}
@@ -35,7 +47,13 @@ const Tab = createBottomTabNavigator(
     ScreenThree: {
       screen: ScreenThree,
        navigationOptions: {
-        tabBarIcon: ()=>(
+        tabBarIcon: ({ focused,tintColor })=>(
+          focused?
+          <Image
+            source={require('../../Resources/Images/user.png')}
+            style={{ width: 40, height: 40, tintColor: 'orange' }}
+          />
+          :
           <Image
             source={require('../../Resources/Images/user.png')}
             style={{ width: 30, height: 30 }}
@@ -65,6 +83,7 @@ const Tab = createBottomTabNavigator(
 );*/
 class MainScreen extends React.Component {
   render() {
+    console.log("Props", this.props.navigation)
     return (
       <View style={{ flex: 1 }}>
         <Tab />

@@ -14,6 +14,7 @@ const InputForm = props => {
         style={styles.inputStyle}
         value={props.value}
         onChangeText={props.onChangeText}
+        multiline = {props.multiline}
       /> 
     </View>
   );
@@ -21,21 +22,22 @@ const InputForm = props => {
 const styles = {
   inputStyle: {
     width: 250,
-    height: 30,
+    height:40,
     color: '#000',
     paddingRight: 5,
     paddingLeft: 5,
-    fontSize: 18,
-    lineHeight: 40,
+    fontSize: 10,
   },
   labelStyle: {
     fontSize: 18,
     padding: 5,
+    color:'#fff',
+    borderRadius:20,
+    backgroundColor: '#272727',
   },
   containerStyle2: {
-    backgroundColor: '#fff',
-    height: 40,
-    flexDirection: 'row',
+    width:100,
+    backgroundColor: '#272727',
     alignItems: 'center',
     borderRightWidth: 1,
     borderTopLeftRadius: 20,
@@ -51,35 +53,10 @@ const styles = {
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
-    elevation: 1,
+    elevation: 11,
     marginLeft: 5,
     marginRight: 5,
     marginTop: 10,
-    alignSelf: 'stretch',
-    backgroundColor: '#fff',
-  },
-  containerStyle3: {
-    backgroundColor: '#fff',
-    height: 40,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
-    alignSelf: 'stretch',
-    borderColor: '#757575',
-  },
-  textInputStyle: {
-    flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderBottomWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
     alignSelf: 'stretch',
     backgroundColor: '#fff',
   },

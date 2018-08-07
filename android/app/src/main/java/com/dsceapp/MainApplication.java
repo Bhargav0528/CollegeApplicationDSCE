@@ -3,6 +3,13 @@ package com.dsceapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
+import com.imagepicker.ImagePickerPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
@@ -29,8 +36,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
             new RNFirebasePackage(),
             new RNFetchBlobPackage(),
+            new ReactNativeDocumentPicker(),
               new RNFirebaseMessagingPackage(),
               new RNFirebaseNotificationsPackage()
       );

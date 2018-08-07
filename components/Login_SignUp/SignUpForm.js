@@ -3,16 +3,18 @@ import {
   Text,
   View,
   Image,
+  ImageBackground,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Picker
 } from 'react-native';
-import { Button, Card, Input, InputForm, Spinner } from '../common';
+import { Button, Card, Input, InputForm, Spinner, InputPicker } from '../common';
 import MainScreen from '../Screens/MainScreen';
 import firebase from 'firebase';
 
 export default class SignUpForm extends Component {
-  state = { setup: null, username: '', sem:'', section:'', branch:'' };
+  state = { setup: null, username: '', sem:'1', section:'', branch:'computer_science' };
   componentWillMount() {
     firebase
       .database()
@@ -26,18 +28,37 @@ export default class SignUpForm extends Component {
   }
 
   validateInfo(){
-      firebase
+    firebase
+      .database()
+      .ref()
+      .child('users')
+      .child(firebase.auth().currentUser.uid)
+      .on('value', snapshot => {
+         firebase
       .database()
       .ref()
       .child('users')
       .child(firebase.auth().currentUser.uid)
       .set({
+        usn:snapshot.val().usn,
+        email:snapshot.val().email,
         username:this.state.username,
         branch:this.state.branch,
         sem:this.state.sem,
         section:this.state.section,
-        infoSetup:true
-      })
+        infoSetup:true,
+        faculty: false
+      })})
+  }
+
+  gotoHome(){
+    firebase.auth().signOut()
+  .then(function() {
+    this.props.navigation.navigate('LoginForm',{screen:'LoginForm'})
+  })
+  .catch(function(error) {
+    // An error happened
+  })
   }
 
 
@@ -49,40 +70,95 @@ export default class SignUpForm extends Component {
         return <MainScreen />;
       case false:
         return (
-          <View style={{ flex: 1 , backgroundColor:'#ECEFF1', alignItems: 'center'}}>
-            <Text>Hey {`${firebase.auth().currentUser.email}`.split('@')[0]}, Please fill up the following details </Text>
+          
+          <View style={{ flex: 1 , backgroundColor:'#fff', alignItems: 'center', justifyContent:'space-around'}}>
+          <ImageBackground source={require('../../Resources/Images/gradien2.jpg')} style={{flex :2,width:'100%', alignItems:'center', justifyContent:'center'}} >
+              <Text style={{fontSize:36, color:'#fff'}}>Dsce App</Text>
+              <Text style={{fontSize:22, color:'#fff'}}>Notes, Forums, Events and more</Text>
+          </ImageBackground>
+
+          <View  style={{ flex: 3 , backgroundColor:'#fff', alignItems: 'center', marginTop:30}}>
+            
             <InputForm
-              onChangeText={password => this.setState({ username: password })}
-              value={this.state.password}
+              onChangeText={username => this.setState({ username: username })}
+              value={this.state.username}
               label="Username"
             />
-            <InputForm
-              onChangeText={branch => this.setState({ branch: branch })}
-              value={this.state.password}
-              label="Branch"
-            />
-            <InputForm
-              onChangeText={sem => this.setState({ sem: sem })}
-              value={this.state.password}
-              label="Semester"
-            />
+            <InputPicker
+              pick = {this.state.branch}
+              onValueChange= {(itemValue, itemIndex) => this.setState({branch: itemValue})}
+              label="Branch">
+              <Picker.Item label="Computer Science" value="computer_science" />
+              <Picker.Item label="Information Science" value="information_science" />
+              <Picker.Item label="Civi Engineering" value="civil_engg" />
+              <Picker.Item label="Mechanincal Engineering" value="mech_engg" />
+              <Picker.Item label="Electronics and Communication" value="ec_engg" />
+            </InputPicker>
+
+            <InputPicker
+              pick = {this.state.sem}
+              onValueChange= {(itemValue, itemIndex) => this.setState({sem: itemValue})}
+              label="Semester">
+              <Picker.Item label="1" value="1" />
+              <Picker.Item label="2" value="2" />
+              <Picker.Item label="3" value="3" />
+              <Picker.Item label="4" value="4" />
+              <Picker.Item label="5" value="5" />
+              <Picker.Item label="6" value="6" />
+              <Picker.Item label="7" value="7" />
+              <Picker.Item label="8" value="8" />
+            </InputPicker>
+
+
+
             <InputForm
               onChangeText={section => this.setState({ section: section })}
               value={this.state.password}
               label="Section"
             />
+
+            
+
+
             <Button
-              btpress={this.validateInfo.bind(this)}
-              >
-              Submit
-            </Button>
+        btpress={this.validateInfo.bind(this)}
+        style={{
+          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: '#000',
+          paddingLeft: 30,
+          paddingRight: 30,
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          elevation: 12,
+          marginTop:40
+        }}>
+        {<Text style={{ color: '#fff' }}>Submit</Text>}
+      </Button>
+      <Button
+        btpress={this.gotoHome.bind(this)}
+        style={{
+          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: '#000',
+          paddingLeft: 30,
+          paddingRight: 30,
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          elevation: 12,
+          marginTop:20
+        }}>
+        {<Text style={{ color: '#fff' }}> Go Back</Text>}
+      </Button>
+            </View>
+            
           </View>
-        );
+        )
     }
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.state);
     return <View style={{ flex: 1 }}>{this.renderScreens()}</View>;
   }
 }

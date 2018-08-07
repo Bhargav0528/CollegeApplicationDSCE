@@ -4,8 +4,9 @@ import { createStackNavigator } from 'react-navigation';
 import LoginForm from './components/Login_SignUp/LoginForm';
 import MainScreen from './components/Screens/MainScreen';
 import SignUpForm from './components/Login_SignUp/SignUpForm';
+import FacultyLogin from './components/Login_SignUp/FacultyLogin';
 import ScreenThree from './components/Screens/ScreenThree';
-import { Header } from './components/common'
+import { Header, Spinner } from './components/common'
 import firebase from 'firebase';
 import  Firebase from 'react-native-firebase';
 import _ from 'lodash';
@@ -20,7 +21,7 @@ console.warn = message => {
 
 export default class App extends Component {
 
-  state = { loggedIn: false };
+  state = { loggedIn: null };
 
   componentWillMount(){
     // Initialize Firebase
@@ -95,6 +96,8 @@ componentWillUnmount() {
   
   renderScreens() {
     switch (this.state.loggedIn) {
+      case null:
+        return <Spinner />;
       case true:
         return <UserNavigation />;
       case false:
@@ -117,6 +120,7 @@ const Stack = createStackNavigator({
   SignUpForm : {screen : SignUpForm},
   MainScreen: { screen: MainScreen },
   ScreenThree: { screen: ScreenThree },
+  FacultyLogin: {screen: FacultyLogin}
 });
 
 const UserNavigation = createStackNavigator({

@@ -4,9 +4,6 @@ import { View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
 const Input = props => {
   return (
     <View style={[styles.containerStyle, props.style]}>
-    <KeyboardAvoidingView
-      style= {[styles.containerStyle, props.style]}
-      behavior="padding" enabled>
       <Text style={styles.labelStyle}>{props.label}</Text>
       <TextInput
         secureTextEntry={props.secureTextEntry}
@@ -17,7 +14,6 @@ const Input = props => {
         value={props.value}
         onChangeText={props.onChangeText}
       />
-      </KeyboardAvoidingView> 
     </View>
   );
 };
@@ -37,7 +33,7 @@ const styles = {
   },
   containerStyle: {
     backgroundColor: '#fff',
-    height: 40,
+    height: '100%',
     flexDirection: 'row',
     alignItems: 'center',
   },

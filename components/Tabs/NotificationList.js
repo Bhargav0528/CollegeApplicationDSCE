@@ -6,15 +6,16 @@ const NotificationList = ({data})=> {
   const { cardViewStyle, categoryViewStyle } = styles;
   return(
     <Card style={cardViewStyle}>
-      <CardSection>
+      <CardSection style={{backgroundColor : '#0277BD', elevation:4, 
+    borderTopLeftRadius: 10,
+		borderTopRightRadius: 10,}}>
         <View>
-          <Text>{data.category}</Text>
+          <Text >{data.category}</Text>
         </View>
       </CardSection>
-      <CardSection>
-        <Text>{data.description}</Text>
-      </CardSection>
-      <CardSection>
+      <CardSection style={{backgroundColor : '#81D4FA', flexDirection:'column', borderBottomLeftRadius: 10,
+		borderBottomRightRadius: 10,}}>
+        <Text style={{fontSize:14, color:'#272727'}}>{data.description}</Text>
         <Text>{data.text}</Text>
       </CardSection>
     </Card>
@@ -23,7 +24,7 @@ const NotificationList = ({data})=> {
 
 const styles = {
   cardViewStyle:{
-    backgroundColor : '#FFF3E0',
+    borderRadius: 10,
     flexDirection:'column',
   },
   categoryViewStyle:{

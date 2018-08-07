@@ -6,3 +6,4 @@ export * from './Input';
 export * from './Spinner';
 export * from './InputForm';
 export * from './Gradient';
+export * from './InputPicker';

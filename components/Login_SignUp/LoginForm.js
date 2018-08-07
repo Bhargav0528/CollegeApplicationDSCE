@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { View, Image, Text, ImageBackground,TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { CardSection, Button, Card, Input } from '../common';
 import MainScreen from '../Screens/MainScreen';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import firebase from 'firebase';
 export default class LoginForm extends Component {
-  state = { loginPress: true, email: '', password: '' };
+  state = { loginPress: true, email: '', password: '', backgroundColor:'', gestureName: 'none', usn:'' };
 
   static navigationOptions = {
     title: 'Welcome',
@@ -29,7 +30,8 @@ export default class LoginForm extends Component {
             const uid = firebase.auth().currentUser.uid
             firebase.database().ref().child('users').child(uid).set({
              email: this.state.email,
-             infoSetup: false
+             infoSetup: false,
+             usn: this.state.usn
             })
             
           
@@ -108,10 +110,11 @@ export default class LoginForm extends Component {
             }}>
             <Image
             source={require('../../Resources/Images/email.png')}
-            style={{ height: 50, width: 50, backgroundColor: '#fff' }}
+            style={{ height: 50, width: 50, backgroundColor: '#fff',borderRadius: 20 }}
               />
 
               <Input
+              style={{borderRadius: 20}}
               placeholder="Email"
               onChangeText={email => this.setState({ email: email })}
               value={this.state.email}
@@ -130,10 +133,11 @@ export default class LoginForm extends Component {
             }}>
             <Image
             source={require('../../Resources/Images/password.png')}
-            style={{ height: 50, width: 50, backgroundColor: '#fff' }}
+            style={{ height: 50, width: 50, backgroundColor: '#fff',borderRadius: 20 }}
           />
             
             <Input
+              style={{borderRadius: 20}}
               placeholder="Password"
               onChangeText={password => this.setState({ password: password })}
               value={this.state.password}
@@ -144,25 +148,30 @@ export default class LoginForm extends Component {
        
 
         </View>
-        <View style={{justifyContent:'space-around',flexDirection:'row',marginTop:15,marginRight:50,marginLeft:50, alignItems:'stretch'}}>
-           <TouchableOpacity>
-            <Image
-            source={require('../../Resources/Images/facebook1.png')}
-            style={{ height: 50, width: 50, backgroundColor: '#fff' }}
-          />
-          </TouchableOpacity>
-          
-          <TouchableOpacity>
-          <Image
-            source={require('../../Resources/Images/google.png')}
-            style={{ height: 50, width: 50, backgroundColor: '#fff' }}
-          />
-          </TouchableOpacity>
-          </View>
+        
           
           <CardSection style={{ justifyContent: 'center' }}>
             {this.renderButtonSignIn()}
           </CardSection>
+
+          <View style={{justifyContent:'space-around',flexDirection:'row',marginTop:15,marginRight:50,marginLeft:50, alignItems:'stretch'}}>
+           <TouchableOpacity>
+           <Button
+                btpress={()=>{ this.props.navigation.navigate('FacultyLogin', {screen:'FacultyLogin'}) }}
+                style={{
+                borderRadius: 20,
+                borderWidth: 1,
+                borderColor: '#000',
+                paddingLeft: 30,
+                paddingRight: 30,
+                backgroundColor: '#000000',
+                color: '#ffffff',
+                elevation: 12,
+              }}>
+        {<Text style={{ color: '#fff' }}>Faculty Login ></Text>}
+      </Button>
+          </TouchableOpacity>
+          </View>
         </View>
       );
     }
@@ -178,12 +187,13 @@ export default class LoginForm extends Component {
           }}>
           <Image
             source={require('../../Resources/Images/usn.png')}
-            style={{ height: 50, width: 50, backgroundColor: '#fff' }}
+            style={{ height: 50, width: 50, backgroundColor: '#fff',borderRadius: 20 }}
           />
           <Input
+            style={{borderRadius: 20}}
             placeholder="USN"
-            onChangeText={password => this.setState({ password: password })}
-            value={this.state.password}
+            onChangeText={usn => this.setState({ usn: usn })}
+            value={this.state.usn}
           />
         </Card>
         <Card
@@ -195,9 +205,10 @@ export default class LoginForm extends Component {
           }}>
           <Image
             source={require('../../Resources/Images/email.png')}
-            style={{ height: 50, width: 50, backgroundColor: '#fff' }}
+            style={{ height: 50, width: 50, backgroundColor: '#fff',borderRadius: 20 }}
           />
           <Input
+            style={{borderRadius: 20}}
             placeholder="Email"
             onChangeText={email => this.setState({ email: email })}
             value={this.state.email}
@@ -213,9 +224,10 @@ export default class LoginForm extends Component {
           }}>
           <Image
             source={require('../../Resources/Images/password.png')}
-            style={{ height: 50, width: 50, backgroundColor: '#fff' }}
+            style={{ height: 50, width: 50, backgroundColor: '#fff',borderRadius: 20 }}
           />
           <Input
+            style={{borderRadius: 20}}
             placeholder="Password"
             onChangeText={password => this.setState({ password: password })}
             value={this.state.password}
@@ -248,11 +260,34 @@ export default class LoginForm extends Component {
     return <View />;
   }
 
+ 
+  onSwipeLeft(gestureState) {
+    this.setState({loginPress: false});
+  }
+ 
+  onSwipeRight(gestureState) {
+    this.setState({loginPress: true});
+  }
+
+
   /*Main Render Method*/
 
   render() {
+    console.log("State:",this.state)
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80
+    };
+
     return ( 
-      
+      <GestureRecognizer
+        onSwipeLeft={(state) => this.onSwipeLeft(state)}
+        onSwipeRight={(state) => this.onSwipeRight(state)}
+        config={config}
+        style={{
+          flex: 1,
+        }}
+        >
       <ImageBackground
         source={require('../../Resources/Images/bg_login.jpg')}
         style={{width: '100%',
@@ -320,7 +355,7 @@ export default class LoginForm extends Component {
         </Card>
         </ScrollView>
       </ImageBackground>
-      
+      </GestureRecognizer>
       
     );
   }
